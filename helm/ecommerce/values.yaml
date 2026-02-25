@@ -1,0 +1,3 @@
+iimage:
+  repository: <ECR_URI>
+  tag: latest
