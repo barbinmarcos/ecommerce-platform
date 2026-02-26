@@ -1,0 +1,42 @@
+mode: deployment
+replicaCount: 1
+
+image:
+  repository: otel/opentelemetry-collector
+  tag: 0.96.0
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+config:
+  receivers:
+    otlp:
+      protocols:
+        grpc: {}
+        http: {}
+
+  processors:
+    batch: {}
+
+  exporters:
+    debug: {}
+
+  service:
+    telemetry:
+      metrics:
+        level: none
+
+    pipelines:
+      traces:
+        receivers: [otlp]
+        processors: [batch]
+        exporters: [debug]
+      metrics:
+        receivers: [otlp]
+        processors: [batch]
+        exporters: [debug]
